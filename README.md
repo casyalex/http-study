@@ -95,3 +95,35 @@ no-transform 不允许改动返回内容（主要针对压缩）
 配合If-Match或者If-Non-Mactch使用
 
 对比资源的签名判断是否使用缓存
+
+### Cookie和Session
+
+#### Cookie 
+
+服务器通过Set-Cookie 的header设置在浏览器保存，浏览器在同域请求会带上cookie
+
+下次请求会自动带上
+
+键值对，可以设置多个
+
+#### Cookie设置
+
+max-age和expires设置过期时间
+
+Secure只在https的时候发送
+
+HttpOnly无法通过document.cookie访问
+
+#### domain
+一级域名 cookie设置 domain=一级域名，二级域名可以访问一级的cookie。
+
+反之不行。
+
+### http长连接
+
+connection:keep-alive 与 close
+
+chrome浏览器的TCP并发请求最多6个
+
+HTTP 1.1 同一个TCP信道 也是一个http接一个http请求的发
+Http 2.0 可以一个TCP信道 N个http请求并发 eg：google

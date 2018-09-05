@@ -17,7 +17,7 @@ http.createServer((request, response) => {
     if (Etag === '777') {
       response.writeHead(304, {
         'Content-Type': 'text/javascript',
-        'Cache-Control': 'max-age=20000000, no-store', // no-cache 会去验证
+        'Cache-Control': 'max-age=20000000, no-cache', // no-cache 会去验证 no-store 完全不验证
         'Last-Modified': '123',
         'Etag': '777'
       })
@@ -25,7 +25,7 @@ http.createServer((request, response) => {
     } else {
       response.writeHead(200, {
         'Content-Type': 'text/javascript',
-        'Cache-Control': 'max-age=20000000, no-store',
+        'Cache-Control': 'max-age=20000000, no-cache',
         'Last-Modified': '123',
         'Etag': '777'
       })
