@@ -127,3 +127,51 @@ chrome浏览器的TCP并发请求最多6个
 
 HTTP 1.1 同一个TCP信道 也是一个http接一个http请求的发
 Http 2.0 可以一个TCP信道 N个http请求并发 eg：google
+
+### 数据协商
+
+#### 请求 Accept： 
+
+Accept 
+
+Accept-Encoding 
+
+Accept-Language 【zh-CN,zh;q=0.9(q指的权重，越高代表越希望返回这种语言)
+
+User-Agent 【Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36】
+
+#### 返回 Content：
+
+Content-Type 
+
+互联网媒体类型-又叫Mimetype
+
+完整的mime type类型：https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Complete_list_of_MIME_types
+
+Content-Encoding 
+
+gzip压缩比较多，node里的官方包叫zlib 压缩调用方法zlib.gzipsync(obj)
+
+Content-Language
+
+### redirect 跳转
+
+302 临时跳转 每次请求都会 跳转
+301 永久跳转 第一次跳转 就记住了（存到缓存，不会过期，直到主动清楚为止） 下次会直接访问跳转地址
+
+### content-security-policy
+
+MDN搜索CSP，有详细介绍
+
+限制资源获取
+
+报告资源获取越权
+
+#### 限制方式
+
+default-src限制全局
+
+指定资源类型
+
+#### 资源类型
+connect-src img-src style-src script-src font/media....
