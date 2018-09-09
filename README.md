@@ -175,3 +175,18 @@ default-src限制全局
 
 #### 资源类型
 connect-src img-src style-src script-src font/media....
+
+### nginx
+
+#### 重要你首先要把测试域名 例如a.test.com 改host代理到本地127.0.0.1，然后nginx才能接管请求
+
+```bash
+server {
+    listen       80;
+    server_name  a.test.com;
+
+    location / {
+        proxy_pass  http://127.0.0.1:8888;
+        proxy_set_header Host $host;
+    }
+}

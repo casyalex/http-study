@@ -7,18 +7,14 @@ http.createServer((request, response) => {
   const host = request.headers.host
   console.log('host is ', host)
 
-  if (request.url === '/') {
-    const html = fs.readFileSync('test.html', 'utf8')
-    if (host === 'a.test.com:8888') {
-      response.writeHead(200, {
-        'Content-Type': 'text/html',
-        // 'Set-Cookie': 'id=123'
-        // 'Set-Cookie': ['id=123; max-age=2', 'abc=456; HttpOnly']
-        'Set-Cookie': ['id=123; max-age=2', 'abc=456; domain=test.com']
-      })
-    }
-    response.end(html)
-  }
+  const html = fs.readFileSync('test.html', 'utf8')
+  response.writeHead(200, {
+    'Content-Type': 'text/html',
+    // 'Set-Cookie': 'id=123'
+    // 'Set-Cookie': ['id=123; max-age=2', 'abc=456; HttpOnly']
+    'Set-Cookie': ['id=123; max-age=2', 'abc=456; domain=test.com']
+  })
+  response.end(html)
 
 
 }).listen(8888)
