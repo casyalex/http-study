@@ -196,6 +196,20 @@ server {
 
 代理缓存的意思是 在代理服务器进行缓存，当一个用户了代理服务器的缓存，其它用户访问代理服务器也会有缓存
 
+### https
+
+HTTP 是明文传输，抓包能看到所有信息。特别是cookie
+
+https 公钥【大家都能看到 拿来加密】 私钥【服务器保留 拿来解密】
+
+客户端 发送随机数与加密方法 服务端返回随机数与证书 通过预主密钥生成主密钥 进行传输
+
+### nginx 部署https
+
+要点： 1.ssl on 2.ssl_certificate 3.ssl_certificate_key
+
+具体看test.conf
+
 ```bash
 proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m;
 
@@ -216,7 +230,29 @@ server {
 
     location / {
         proxy_pass  http://127.0.0.1:8888;
+    listen          80 default_server;
+    listen          [::]:80 default_server;
+    server_name     test.com;
+    return 302 https://$server_name$request_uri;
+}
+
+server {
+    listen          443;
+    server_name     test.com;
+
+    ssl on;
+    ssl_certificate_key ../certs/localhost-privkey.pem;
+    ssl_certificate ../certs/localhost-cert.pem;
+
+    location / {
+        proxy_cache my_cache;
+        proxy_pass http://127.0.0.1:8888;
+        proxy_set_header Host $host;
     }
 }
 ```
 
+生成 sslkey 命令，git bash下运行，win没部署openssl
+```bash
+openssl req -x509 -newkey rsa:2048 -nodes -sha256 -keyout localhost-privkey.pem -out localhost-cert.pem
+```
