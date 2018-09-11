@@ -190,3 +190,33 @@ server {
         proxy_set_header Host $host;
     }
 }
+```
+
+### nginx代理缓存
+
+代理缓存的意思是 在代理服务器进行缓存，当一个用户了代理服务器的缓存，其它用户访问代理服务器也会有缓存
+
+```bash
+proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m;
+
+server {
+    listen       80;
+    server_name  b.test.com;
+
+    location / {
+        proxy_cache my_cache;
+        proxy_pass  http://127.0.0.1:8888;
+        proxy_set_header Host $host;
+    }
+}
+
+server {
+    listen       80;
+    server_name  a.test.com;
+
+    location / {
+        proxy_pass  http://127.0.0.1:8888;
+    }
+}
+```
+
